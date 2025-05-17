@@ -116,12 +116,12 @@
 
                 try {
                     // Different endpoints based on creativity type
-                    let endpoint = 'http://localhost:3000/api/retrieve';
+                    let endpoint = 'https://discovered-rainbow-houseboat.glitch.me/api/retrieve';
 
                     if (creativityType === 'combinational') {
-                        endpoint = 'http://localhost:3000/api/combinational';
+                        endpoint = 'https://discovered-rainbow-houseboat.glitch.me/api/combinational';
                     } else if (creativityType === 'transformational') {
-                        endpoint = 'http://localhost:3000/api/transformational';
+                        endpoint = 'https://discovered-rainbow-houseboat.glitch.me/api/transformational';
                     }
 
                     const response = await fetch(endpoint, {
