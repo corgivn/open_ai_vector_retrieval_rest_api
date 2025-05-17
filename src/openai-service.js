@@ -123,7 +123,55 @@ async function generateAnswerFromContent(retrievedContent, userQuery, model = "g
     const chatResponse = await openai.chat.completions.create({
       model,
       messages: [
-        { role: "system", content: "Answer the user's question based on the following content." }, // If the anwser dont exisit or related the question then reply you dont have info about that.
+        { role: "system", content: "Answer the user's question based on the following content. If the anwser dont exisit or related the question then reply you dont have info about that" },
+        { role: "user", content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}` },
+      ],
+    });
+
+    return chatResponse.choices[0].message.content;
+  } catch (error) {
+    console.error('Error generating answer:', error);
+    throw error;
+  }
+}
+
+/**
+ * Generate answer using LLM based on retrieved content
+ * @param {string} retrievedContent - Content retrieved from vector store
+ * @param {string} userQuery - Original user query
+ * @param {string} model - Model to use (default: gpt-4o-mini)
+ * @returns {Promise<string>} - Generated answer
+ */
+async function generateAnswerCombinationalFromContent(retrievedContent, userQuery, model = "gpt-4o-mini") {
+  try {
+    const chatResponse = await openai.chat.completions.create({
+      model,
+      messages: [
+        { role: "system", content: "Answer the user's question based on the following content." },
+        { role: "user", content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}` },
+      ],
+    });
+
+    return chatResponse.choices[0].message.content;
+  } catch (error) {
+    console.error('Error generating answer:', error);
+    throw error;
+  }
+}
+
+/**
+ * Generate answer using LLM based on retrieved content
+ * @param {string} retrievedContent - Content retrieved from vector store
+ * @param {string} userQuery - Original user query
+ * @param {string} model - Model to use (default: gpt-4o-mini)
+ * @returns {Promise<string>} - Generated answer
+ */
+async function generateAnswerTransformationalFromContent(retrievedContent, userQuery, model = "gpt-4o-mini") {
+  try {
+    const chatResponse = await openai.chat.completions.create({
+      model,
+      messages: [
+        { role: "system", content: "Answer the user's the function under development" },
         { role: "user", content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}` },
       ],
     });
@@ -142,4 +190,6 @@ module.exports = {
   uploadFileToVectorStore,
   searchVectorStore,
   generateAnswerFromContent,
+  generateAnswerCombinationalFromContent,
+  generateAnswerTransformationalFromContent,
 };
