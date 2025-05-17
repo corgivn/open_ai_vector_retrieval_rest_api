@@ -1,0 +1,50 @@
+[
+  {
+    "ID": 1,
+    "Nội dung văn bản": "Trí tuệ nhân tạo đang thay đổi cách con người làm việc.",
+    "Chủ đề": "Công nghệ",
+    "Ngôn ngữ": "Tiếng Việt"
+  },
+  {
+    "ID": 2,
+    "Nội dung văn bản": "Artificial intelligence is transforming the workplace.",
+    "Chủ đề": "Technology",
+    "Ngôn ngữ": "English"
+  },
+  {
+    "ID": 3,
+    "Nội dung văn bản": "Hà Nội có nhiều điểm du lịch văn hóa đặc sắc.",
+    "Chủ đề": "Du lịch",
+    "Ngôn ngữ": "Tiếng Việt"
+  },
+  {
+    "ID": 4,
+    "Nội dung văn bản": "Paris is famous for its art, fashion, and architecture.",
+    "Chủ đề": "Travel",
+    "Ngôn ngữ": "English"
+  },
+  {
+    "ID": 5,
+    "Nội dung văn bản": "Súp lơ xanh rất giàu vitamin và chất xơ.",
+    "Chủ đề": "Sức khỏe",
+    "Ngôn ngữ": "Tiếng Việt"
+  },
+  {
+    "ID": 6,
+    "Nội dung văn bản": "Broccoli is high in vitamins and fiber.",
+    "Chủ đề": "Health",
+    "Ngôn ngữ": "English"
+  },
+  {
+    "ID": 7,
+    "Nội dung văn bản": "Python là ngôn ngữ lập trình phổ biến cho học máy.",
+    "Chủ đề": "Lập trình",
+    "Ngôn ngữ": "Tiếng Việt"
+  },
+  {
+    "ID": 8,
+    "Nội dung văn bản": "Python is a popular language for machine learning.",
+    "Chủ đề": "Programming",
+    "Ngôn ngữ": "English"
+  }
+]
