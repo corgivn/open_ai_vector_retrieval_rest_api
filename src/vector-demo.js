@@ -1,6 +1,6 @@
 // src/vector-demo.js
 
-const { vectorRetrievalFlow } = require('./vector-retrieval');
+const { vectorRetrievalFlow, vectorRetrievalCombinationalFlow, vectorRetrievalTransformationalFlow } = require('./vector-retrieval');
 
 /**
  * Process a vector retrieval query
@@ -13,6 +13,30 @@ async function processVectorQuery(query, filePath = "/Users/roger/Documents/my_p
 
   try {
     const { answer, chunks } = await vectorRetrievalFlow(filePath, query, "Programming FAQ");
+    return { answer, chunks };
+  } catch (error) {
+    console.error('Error processing vector query:', error);
+    throw error;
+  }
+}
+
+async function processVectorCombinationalQuery(query, filePath = "/Users/roger/Documents/my_projects/open_ai_vector_retrieval_rest_api/test_data.json") {
+  console.log(`Processing query: "${query}"\n`);
+
+  try {
+    const { answer, chunks } = await vectorRetrievalCombinationalFlow(filePath, query, "Programming FAQ");
+    return { answer, chunks };
+  } catch (error) {
+    console.error('Error processing vector query:', error);
+    throw error;
+  }
+}
+
+async function processVectorTransformationalQuery(query, filePath = "/Users/roger/Documents/my_projects/open_ai_vector_retrieval_rest_api/test_data.json") {
+  console.log(`Processing query: "${query}"\n`);
+
+  try {
+    const { answer, chunks } = await vectorRetrievalTransformationalFlow(filePath, query, "Programming FAQ");
     return { answer, chunks };
   } catch (error) {
     console.error('Error processing vector query:', error);
@@ -54,4 +78,4 @@ if (require.main === module) {
 }
 
 // Export the processVectorQuery function for use in other files
-module.exports = { processVectorQuery };
+module.exports = { processVectorQuery, processVectorCombinationalQuery, processVectorTransformationalQuery };

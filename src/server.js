@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { processVectorQuery } = require('./vector-demo');
+const { processVectorQuery, processVectorCombinationalQuery, processVectorTransformationalQuery } = require('./vector-demo');
 require('dotenv').config();
 
 // Configuration
@@ -45,6 +45,63 @@ app.post(`${config.apiPrefix}/retrieve`, async (req, res) => {
         console.log('Processing request...');
 
         const { answer, chunks } = await processVectorQuery(query, FILE_PATH);
+
+        return res.status(200).json({
+            answer,
+            chunks,
+            query
+        });
+    } catch (error) {
+        console.error('Error processing request:', error);
+        return res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
+});
+
+// Vector retrieval API endpoint
+app.post(`${config.apiPrefix}/combinational`, async (req, res) => {
+    try {
+        const { query, filePath } = req.body;
+
+        if (!query) {
+            return res.status(400).json({ error: 'Query is required' });
+        }
+
+        // Use the provided file path, or the default from config
+        const FILE_PATH = filePath || config.defaultFilePath;
+
+        console.log(`Received query: "${query}"`);
+        console.log('Processing request...');
+
+        const { answer, chunks } = await processVectorCombinationalQuery(query, FILE_PATH);
+
+        return res.status(200).json({
+            answer,
+            chunks,
+            query
+        });
+    } catch (error) {
+        console.error('Error processing request:', error);
+        return res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
+});
+
+
+// Vector retrieval API endpoint
+app.post(`${config.apiPrefix}/transformational`, async (req, res) => {
+    try {
+        const { query, filePath } = req.body;
+
+        if (!query) {
+            return res.status(400).json({ error: 'Query is required' });
+        }
+
+        // Use the provided file path, or the default from config
+        const FILE_PATH = filePath || config.defaultFilePath;
+
+        console.log(`Received query: "${query}"`);
+        console.log('Processing request...');
+
+        const { answer, chunks } = await processVectorTransformationalQuery(query, FILE_PATH);
 
         return res.status(200).json({
             answer,

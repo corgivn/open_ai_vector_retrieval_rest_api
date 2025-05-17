@@ -147,7 +147,7 @@ async function generateAnswerCombinationalFromContent(retrievedContent, userQuer
     const chatResponse = await openai.chat.completions.create({
       model,
       messages: [
-        { role: "system", content: "Answer the user's question based on the following content." },
+        { role: "system", content: "You are a technically-grounded creative assistant. Your task is to generate answers that are factually accurate and based only on the provided content. However, express the answer in a fresh, imaginative, and engaging way — using metaphors, rephrasings, or vivid comparisons if appropriate. Do not invent information. Do not include anything that cannot be traced back to the source content. Always prioritize factual correctness while making the answer clear and interesting." },
         { role: "user", content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}` },
       ],
     });
@@ -171,8 +171,14 @@ async function generateAnswerTransformationalFromContent(retrievedContent, userQ
     const chatResponse = await openai.chat.completions.create({
       model,
       messages: [
-        { role: "system", content: "Answer the user's the function under development" },
-        { role: "user", content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}` },
+        {
+          role: "system",
+          content: "If the function is under development or not available, respond only with: 'This function is under development.' Do not include any explanation, code, or formatting.",
+        },
+        {
+          role: "user",
+          content: `Content:\n${retrievedContent}\n\nQuestion: ${userQuery}`,
+        },
       ],
     });
 

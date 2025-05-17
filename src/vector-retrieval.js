@@ -5,7 +5,9 @@ const {
   createVectorStore,
   uploadFileToVectorStore,
   searchVectorStore,
-  generateAnswerFromContent
+  generateAnswerFromContent,
+  generateAnswerCombinationalFromContent,
+  generateAnswerTransformationalFromContent,
 } = require('./openai-service');
 const fs = require('fs');
 
@@ -147,6 +149,68 @@ async function vectorRetrievalFlow(filePath, query, storeName = "Knowledge Base"
   }
 }
 
+/**
+ * Complete vector retrieval flow
+ * @param {string} filePath - Path to the knowledge base file
+ * @param {string} query - User's query
+ * @param {string} storeName - Name for the vector store (optional)
+ * @returns {Promise<{answer: string, chunks: string}>} - Answer and retrieved chunks
+ */
+async function vectorRetrievalCombinationalFlow(filePath, query, storeName = "Knowledge Base") {
+  try {
+    // 1. Create vector store (Using a fixed vectorStoreId for demo purposes)
+    // In production, you might want to create a new one or load one from a database
+    const vectorStoreId = 'vs_681f613ce9d08191883d50b01899e3dd';
+
+    // 2. Upload and process file (commented out for demo purposes)
+    // To use this in production, uncomment the following line:
+    // await addDocumentsToStore(vectorStoreId, filePath);
+
+    // 3. Retrieve relevant information based on the query
+    const { chunks } = await retrieveInformation(vectorStoreId, query);
+
+    // 4. Generate answer using LLM based on retrieved chunks
+    const answer = await generateAnswerCombinationalFromContent(chunks, query);
+
+    // Return both the generated answer and the retrieved chunks
+    return { answer, chunks };
+  } catch (error) {
+    console.error("❌ Error in vector retrieval flow:", error);
+    throw error;
+  }
+}
+
+/**
+ * Complete vector retrieval flow
+ * @param {string} filePath - Path to the knowledge base file
+ * @param {string} query - User's query
+ * @param {string} storeName - Name for the vector store (optional)
+ * @returns {Promise<{answer: string, chunks: string}>} - Answer and retrieved chunks
+ */
+async function vectorRetrievalTransformationalFlow(filePath, query, storeName = "Knowledge Base") {
+  try {
+    // 1. Create vector store (Using a fixed vectorStoreId for demo purposes)
+    // In production, you might want to create a new one or load one from a database
+    const vectorStoreId = 'vs_681f613ce9d08191883d50b01899e3dd';
+
+    // 2. Upload and process file (commented out for demo purposes)
+    // To use this in production, uncomment the following line:
+    // await addDocumentsToStore(vectorStoreId, filePath);
+
+    // 3. Retrieve relevant information based on the query
+    const { chunks } = await retrieveInformation(vectorStoreId, query);
+
+    // 4. Generate answer using LLM based on retrieved chunks
+    const answer = await generateAnswerTransformationalFromContent(chunks, query);
+
+    // Return both the generated answer and the retrieved chunks
+    return { answer, chunks };
+  } catch (error) {
+    console.error("❌ Error in vector retrieval flow:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   cosineSimilarity,
   findSimilarDocuments,
@@ -155,4 +219,6 @@ module.exports = {
   retrieveInformation,
   answerWithRAG,
   vectorRetrievalFlow,
+  vectorRetrievalCombinationalFlow,
+  vectorRetrievalTransformationalFlow,
 };
