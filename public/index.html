@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Retrieval API Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 15px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Vector Retrieval API Demo</h1>
+    <div class="container">
+        <h3>Ask a question:</h3>
+        <textarea id="query-input" placeholder="e.g., Do you know what is Tri tuệ nhân tạo?"></textarea>
+        <button id="submit-btn">Submit Query</button>
+        <div id="loading" class="loading">Processing your query...</div>
+        <div id="result" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const queryInput = document.getElementById('query-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const loadingDiv = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+
+            submitBtn.addEventListener('click', async () => {
+                const query = queryInput.value.trim();
+
+                if (!query) {
+                    alert('Please enter a query');
+                    return;
+                }
+
+                // Show loading indicator
+                loadingDiv.style.display = 'block';
+                resultDiv.style.display = 'none';
+
+                try {
+                    const response = await fetch('http://localhost:3000/api/retrieve', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ query })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        resultDiv.innerHTML = `
+                            <h3>Answer:</h3>
+                            <p>${data.answer.replace(/\n/g, '<br>')}</p>
+                        `;
+                        resultDiv.classList.remove('error');
+                    } else {
+                        resultDiv.innerHTML = `
+                            <h3>Error:</h3>
+                            <p>${data.error || 'Unknown error occurred'}</p>
+                        `;
+                        resultDiv.classList.add('error');
+                    }
+                } catch (error) {
+                    resultDiv.innerHTML = `
+                        <h3>Error:</h3>
+                        <p>Failed to connect to the server. Make sure the API server is running.</p>
+                    `;
+                    resultDiv.classList.add('error');
+                } finally {
+                    loadingDiv.style.display = 'none';
+                    resultDiv.style.display = 'block';
+                }
+            });
+
+            // Allow submitting with Enter key
+            queryInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    submitBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
