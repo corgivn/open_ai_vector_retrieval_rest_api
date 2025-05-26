@@ -174,7 +174,7 @@
 
                         <div className="d-grid gap-2">
                             <div className="row g-2">
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <button
                                         type="button"
                                         className={`btn ${activeCreativityType === 'reproductive' ? 'btn-success' : 'btn-outline-success'} w-100 btn-submit`}
@@ -188,12 +188,12 @@
                                             </>
                                         ) : (
                                             <>
-                                                <i className="bi bi-cpu me-2"></i>Reproductive Creativity
+                                                <i className="bi bi-cpu me-2"></i>Reproductive
                                             </>
                                         )}
                                     </button>
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <button
                                         type="button"
                                         className={`btn ${activeCreativityType === 'combinational' ? 'btn-success' : 'btn-outline-success'} w-100 btn-submit`}
@@ -207,12 +207,12 @@
                                             </>
                                         ) : (
                                             <>
-                                                <i className="bi bi-bezier2 me-2"></i>Combinational Creativity
+                                                <i className="bi bi-bezier2 me-2"></i>Combinational
                                             </>
                                         )}
                                     </button>
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <button
                                         type="button"
                                         className={`btn ${activeCreativityType === 'transformational' ? 'btn-success' : 'btn-outline-success'} w-100 btn-submit`}
@@ -226,9 +226,18 @@
                                             </>
                                         ) : (
                                             <>
-                                                <i className="bi bi-stars me-2"></i>Transformational Creativity
+                                                <i className="bi bi-stars me-2"></i>Transformational
                                             </>
                                         )}
+                                    </button>
+                                </div>
+                                <div className="col-md-3">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary w-100 btn-submit"
+                                        onClick={() => window.location.href = '/chat.html'}
+                                    >
+                                        <i className="bi bi-chat-dots me-2"></i>Chat View
                                     </button>
                                 </div>
                             </div>

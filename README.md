@@ -11,6 +11,8 @@ A JavaScript project that demonstrates how to use OpenAI's API for text generati
 - Use OpenAI's Vector Stores API for advanced retrieval
 - Implement RAG (Retrieval Augmented Generation) pattern
 - Calculate cosine similarity between vectors
+- **Interactive Chat Interface** - Real-time chat with OpenAI's AI models
+- **Multiple Creativity Types** - Support for reproductive, combinational, and transformational creativity modes
 
 ## Setup
 
@@ -74,6 +76,14 @@ Once the server is running, you can access the web UI at:
 http://localhost:3000/
 ```
 
+### Access the Chat Interface
+
+For interactive AI chat functionality:
+
+```
+http://localhost:3000/chat.html
+```
+
 ## Project Structure
 
 - `src/index.js` - Main entry point with basic examples
@@ -81,9 +91,10 @@ http://localhost:3000/
 - `src/vector-retrieval.js` - Implementation of vector similarity search and vector stores
 - `src/demo.js` - Demonstration of basic vector retrieval functionality
 - `src/vector-demo.js` - Demonstration of OpenAI Vector Store with RAG pattern
-- `src/server.js` - REST API server for vector retrieval service
+- `src/server.js` - REST API server for vector retrieval service and chat functionality
 - `src/client-example.js` - Example client for the REST API
-- `public/index.html` - Web UI for the vector retrieval service
+- `public/index.html` - Web UI for the vector retrieval service with creativity modes
+- `public/chat.html` - Interactive chat interface with OpenAI
 
 ## How It Works
 

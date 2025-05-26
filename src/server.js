@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { processVectorQuery, processVectorCombinationalQuery, processVectorTransformationalQuery } = require('./vector-demo');
+const { generateText } = require('./openai-service');
 require('dotenv').config();
 
 // Configuration
@@ -27,6 +28,34 @@ app.get(`${config.apiPrefix}/health`, (req, res) => {
         message: 'Vector Retrieval API is running',
         version: '1.0.0'
     });
+});
+
+// Chat API endpoint
+app.post(`${config.apiPrefix}/chat`, async (req, res) => {
+    try {
+        const { message, filePath } = req.body;
+
+        if (!message) {
+            return res.status(400).json({ error: 'Message is required' });
+        }
+
+        // Use the provided file path, or the default from config
+        const FILE_PATH = filePath || config.defaultFilePath;
+
+        console.log(`Received chat message: "${message}"`);
+        console.log('Processing chat request...');
+
+        const { answer, chunks } = await processVectorCombinationalQuery(message, FILE_PATH);
+
+        return res.status(200).json({
+            response: answer,
+            chunks,
+            message
+        });
+    } catch (error) {
+        console.error('Error processing chat request:', error);
+        return res.status(500).json({ error: 'An error occurred while processing your message' });
+    }
 });
 
 // Vector retrieval API endpoint
@@ -134,9 +163,13 @@ const server = app.listen(config.port, () => {
     console.log('Available endpoints:');
     console.log(`- GET http://localhost:${config.port}${config.apiPrefix}/health`);
     console.log(`- POST http://localhost:${config.port}${config.apiPrefix}/retrieve`);
-    console.log(`- GET http://localhost:${config.port}/ (Web UI)`);
+    console.log(`- POST http://localhost:${config.port}${config.apiPrefix}/chat`);
+    console.log(`- GET http://localhost:${config.port}/ (Main UI)`);
+    console.log(`- GET http://localhost:${config.port}/chat.html (Chat UI)`);
     console.log('\nExample POST request body:');
     console.log('{\n  "query": "What is artificial intelligence?"\n}');
+    console.log('\nExample Chat POST request body:');
+    console.log('{\n  "message": "Hello, how are you?"\n}');
 });
 
 // Handle graceful shutdown
